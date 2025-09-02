@@ -13,7 +13,6 @@ exports.signup = async (req, res) => {
         message: "All fields are required",
       });
     }
-
     const checkUser = await user.findOne({ email: email });
 
     if (checkUser) {
@@ -22,7 +21,13 @@ exports.signup = async (req, res) => {
       });
     }
 
+
+
+
+
     const hashPassword = await bcrypt.hash(password, 10);
+
+    //add something just tesing git
 
     const createUser = await user.create({
       firstName,
