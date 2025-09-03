@@ -11,11 +11,14 @@ const signUpZod = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
+  phoneNumber: z.number().min(10, "Invalid mobile number"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 })
 
 exports.signup = async (req, res) => {
   try {
+    const data = req.body;
+    console.log(data.firstName, data.lastName, data.email, data.phoneNumber, data.password);
     
     const parsed = signUpZod.safeParse(req.body)
 
@@ -26,9 +29,9 @@ exports.signup = async (req, res) => {
       })
     }
 
-    const { firstName, lastName, email, password } = parsed.data;
+    const { firstName, lastName, email, phoneNumber, password } = parsed.data;
 
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !email || !phoneNumber || !password) {
       return res.status(404).json({
         message: "All fields are required",
       });
@@ -41,12 +44,21 @@ exports.signup = async (req, res) => {
       });
     }
 
+    const checkNumber = await user.findOne({phoneNumber:phoneNumber})
+
+    if(checkNumber){
+      return res.status(404).json({
+        message: "Phone number is already register with other user",
+      });
+    }
+
     const hashPassword = await bcrypt.hash(password, 10);
 
     const createUser = await user.create({
       firstName,
       lastName,
       email,
+      phoneNumber,
       password: hashPassword,
     });
 
