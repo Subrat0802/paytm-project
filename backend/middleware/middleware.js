@@ -6,15 +6,14 @@ dotenv.config();
 
 exports.isUser = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
+    const token = req.cookies?.token;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if(!token){
       return res.status(403).json({
-        message: "Authorization header missing or invalid",
-      });
+        message:"Token is missing",
+        success:false
+      })
     }
-
-    const token = authHeader.split(" ")[1];
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (!decoded.id) {
@@ -30,7 +29,7 @@ exports.isUser = async (req, res, next) => {
       });
     }
 
-    req.userId = decoded.id;
+    req.userId = checkUser._id;
     next();
   } catch (error) {
     return res.status(500).json({

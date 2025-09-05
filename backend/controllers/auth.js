@@ -11,21 +11,26 @@ const signUpZod = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
-  phoneNumber: z.number().min(10, "Invalid mobile number"),
+  phoneNumber: z
+  .number()
+  .transform(val => val.toString())
+  .refine(val => /^\d{10}$/.test(val), {
+    message: "Invalid mobile number",
+  }),
   password: z.string().min(6, "Password must be at least 6 characters"),
 })
 
 exports.signup = async (req, res) => {
   try {
-    const data = req.body;
-    console.log(data.firstName, data.lastName, data.email, data.phoneNumber, data.password);
+    // const data = req.body;
+    // console.log(data.firstName, data.lastName, data.email, data.phoneNumber, data.password);
     
     const parsed = signUpZod.safeParse(req.body)
 
     if(!parsed.success){
       return res.status(401).json({
         message:"Zod validation error",
-        errors:parsed.error.errors
+        errors:parsed.error.issues[0].message
       })
     }
 
@@ -206,3 +211,29 @@ exports.updateUser = async (req, res) => {
     });
   }
 };
+
+
+exports.getUser = async (req, res) => {
+  try{
+    const id = req.userId;
+    const userData = await user.findById(id).select("-password");
+    if(!userData){
+      return res.status(404).json({
+        message:"Invalid user, error while getting user",
+        success:false
+      })
+    }
+
+    return res.status(200).json({
+      user:userData,
+      message:"User data",
+      success:true
+    })
+  }catch(error){
+    return res.status(500).json({
+      message:"Server error while getting user",
+      success:false,
+      error
+    })
+  }
+}

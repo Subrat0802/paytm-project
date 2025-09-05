@@ -1,7 +1,11 @@
 import { useState } from "react"
 import Input from "../components/ui/Input"
+import { signin } from "../services/operations/auth"
+import { useNavigate } from "react-router-dom"
+// import { toast } from "sonner"
 
 const Signin = () => {
+  const navigate = useNavigate();
   const [signinData, setSigninData] = useState({
     email:"",
     password:""
@@ -14,7 +18,17 @@ const Signin = () => {
     }))
   }
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    const {email, password} = signinData;
+    console.log(email, password);
+
+    const response = await signin(email, password);
+    if(response) {
+      navigate("/user")
+    }else{
+      navigate("/signin")
+    }
+
 
   }
   return (

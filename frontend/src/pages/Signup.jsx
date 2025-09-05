@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Input from "../components/ui/Input";
 import { signup } from "../services/operations/auth";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [signupData, setSignupData] = useState({
     firstName: "",
     lastName: "",
@@ -15,14 +18,19 @@ const Signup = () => {
   const handleChange = (e) => {
     setSignupData((prev) => ({
         ...prev,
-        [e.target.name]: e.target.value 
+        [e.target.name]: e.target.value
     }))
   }
 
   const handleClick = async () => {
-    const { firstName, lastName, email, phoneNumber, password } = signupData;
+    const { firstName, lastName, email, phoneNumber, password, confirmPassword } = signupData;
+    if(password !== confirmPassword){
+      toast.error("Password do not match")
+    }
     const response = await signup(firstName, lastName, email, Number(phoneNumber), password);
-    console.log("response", response);
+    if(response){
+      navigate("/signin")
+    }
   }
 
   return (
