@@ -84,6 +84,9 @@ exports.signup = async (req, res) => {
       })
     }
 
+    createUser.account = addRandomBalance._id;
+    await createUser.save();
+
     createUser.password = undefined;
 
     res.status(200).json({
@@ -216,7 +219,7 @@ exports.updateUser = async (req, res) => {
 exports.getUser = async (req, res) => {
   try{
     const id = req.userId;
-    const userData = await user.findById(id).select("-password");
+    const userData = await user.findById(id).select("-password").populate("account");
     if(!userData){
       return res.status(404).json({
         message:"Invalid user, error while getting user",

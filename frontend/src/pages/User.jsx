@@ -1,7 +1,15 @@
 
 const User = () => {
   return (
-    <div>User</div>
+    <div className="border min-h-[86vh]">
+      <div className="border h-[20vh]">
+        
+      </div>
+
+      <div>
+        
+      </div>
+    </div>
   )
 }
 

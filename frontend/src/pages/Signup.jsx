@@ -3,8 +3,11 @@ import Input from "../components/ui/Input";
 import { signup } from "../services/operations/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../services/redux/slice/auth";
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [signupData, setSignupData] = useState({
     firstName: "",
@@ -23,13 +26,17 @@ const Signup = () => {
   }
 
   const handleClick = async () => {
+    dispatch(setLoading(true));
     const { firstName, lastName, email, phoneNumber, password, confirmPassword } = signupData;
     if(password !== confirmPassword){
-      toast.error("Password do not match")
+      return toast.error("Password do not match")
     }
     const response = await signup(firstName, lastName, email, Number(phoneNumber), password);
     if(response){
       navigate("/signin")
+      dispatch(setLoading(false));
+    }else{
+      dispatch(setLoading(false));
     }
   }
 

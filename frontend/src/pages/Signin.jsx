@@ -2,9 +2,12 @@ import { useState } from "react"
 import Input from "../components/ui/Input"
 import { signin } from "../services/operations/auth"
 import { useNavigate } from "react-router-dom"
+import { setLoading, setLoggedIn } from "../services/redux/slice/auth"
+import { useDispatch } from "react-redux"
 // import { toast } from "sonner"
 
 const Signin = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [signinData, setSigninData] = useState({
     email:"",
@@ -19,14 +22,20 @@ const Signin = () => {
   }
 
   const handleClick = async () => {
+    dispatch(setLoading(true));
     const {email, password} = signinData;
     console.log(email, password);
 
     const response = await signin(email, password);
     if(response) {
+      dispatch(setLoggedIn(true));
       navigate("/user")
+      
+    dispatch(setLoading(false));
     }else{
       navigate("/signin")
+      
+    dispatch(setLoading(false));
     }
 
 

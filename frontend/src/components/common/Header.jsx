@@ -1,12 +1,23 @@
 import { Link, NavLink } from "react-router-dom";
 import payment from "../../assets/payment.svg";
 import useGetUser from "../../services/hooks/getuser";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setLoggedIn } from "../../services/redux/slice/auth";
 
 const Header = () => {
+  const dispatch = useDispatch();
+    
     const {user} = useGetUser();
-    console.log("user", user);
+
+    useEffect(() => {
+      if(user){
+        dispatch(setLoggedIn(true))
+      }
+    },[dispatch, user]);
+    
   return (
-    <div className="w-full p-2 flex justify-between text-black ">
+    <div className="w-full p-4 flex justify-between text-black ">
       <NavLink to={"/"}><div className="flex justify-center space-x-1 items-center">
         <img src={payment} alt="payment" className="h-8 w-auto" />
         <p className="italic font-bold  ">
