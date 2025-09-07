@@ -3,6 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser"); 
 const dbconnect = require("./config/database");
 const authRouter = require("./router/auth");
+const userPayRouter = require("./router/userPayments");
 const app = express();
 
 app.use(cors({
@@ -15,6 +16,7 @@ app.use(cookieParser());
 dbconnect();
 
 app.use("/api/v1/user", authRouter);
+app.use("/api/v1/payments", userPayRouter)
 
 app.get("/", (req, res) => {
     res.send("Hi there")

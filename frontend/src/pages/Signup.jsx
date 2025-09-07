@@ -31,7 +31,7 @@ const Signup = () => {
     if(password !== confirmPassword){
       return toast.error("Password do not match")
     }
-    const response = await signup(firstName, lastName, email, Number(phoneNumber), password);
+    const response = await signup(firstName, lastName, email, phoneNumber, password);
     if(response){
       navigate("/signin")
       dispatch(setLoading(false));

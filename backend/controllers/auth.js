@@ -11,9 +11,7 @@ const signUpZod = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
-  phoneNumber: z
-  .number()
-  .transform(val => val.toString())
+  phoneNumber: z.string().transform(val => val.toString())
   .refine(val => /^\d{10}$/.test(val), {
     message: "Invalid mobile number",
   }),
