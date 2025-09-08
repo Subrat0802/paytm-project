@@ -5,3 +5,7 @@ export const authEndpoint = {
     SIGNIN_API : BASE_URL + "/user/signin",
     GET_USER : BASE_URL + "/user/me",
 }
+
+export const transactionEndpoint = {
+    GET_USER: BASE_URL + "/payments/getUser"
+}

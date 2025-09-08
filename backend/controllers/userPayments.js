@@ -2,13 +2,9 @@ const user = require("../models/user");
 
 exports.findUser = async (req, res) => {
   try {
-    const { searchUser } = req.body;
-    if (!userByNumber) {
-      return res.status(404).json({
-        message: "No user found",
-      });
-    }
-
+    const { searchUser } = req.query
+    console.log("searchUser", searchUser)
+    
     const findUser = await user
       .find({
         $or: [
