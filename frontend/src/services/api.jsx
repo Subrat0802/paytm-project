@@ -7,5 +7,6 @@ export const authEndpoint = {
 }
 
 export const transactionEndpoint = {
-    GET_USER: BASE_URL + "/payments/getUser"
+    GET_USER: BASE_URL + "/payments/getUser",
+    PAY: BASE_URL + "/payments/pay"
 }
