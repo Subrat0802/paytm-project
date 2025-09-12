@@ -28,7 +28,7 @@ const Home = () => {
       </section>
 
       {/* Features */}
-      <section className="w-full px-6 py-12 space-y-6">
+      <section className="w-full px-6 py-12 space-y-6 ">
         <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md shadow flex flex-col items-center text-center">
           <Shield className="w-10 h-10 text-blue-400" />
           <h3 className="mt-3 font-semibold text-lg">Bank-Grade Security</h3>

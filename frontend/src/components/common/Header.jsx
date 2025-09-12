@@ -27,7 +27,8 @@ const Header = () => {
 
       <div className="space-x-2 text-sm flex justify-center items-center">
         <Link to={"/signup"}><button className="bg-black px-3 py-2 text-white hover:bg-[#3b3b3b] transition-all duration-200">Signup</button></Link>
-        <Link to={"/signin"}><button className="bg-black px-3 py-2 text-white hover:bg-[#3b3b3b] transition-all duration-200">Signup</button></Link>
+        <Link to={"/signin"}><button className="bg-black px-3 py-2 text-white hover:bg-[#3b3b3b] 
+        transition-all duration-200">Signin</button></Link>
       </div>
 
     </div>
